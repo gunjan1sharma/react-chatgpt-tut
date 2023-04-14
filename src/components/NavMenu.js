@@ -16,6 +16,10 @@ import AddIcon from "@mui/icons-material/Add";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const Wrapper = styled.section`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   margin: 0px;
   height: 50px;
   padding: 0em;
@@ -26,6 +30,8 @@ const Wrapper = styled.section`
   align-items: center;
   justify-content: space-between;
 `;
+
+
 
 const MenuSection = styled.section`
   margin: 10px;

@@ -2,20 +2,7 @@ import { useEffect, useState } from "react";
 import "../src/css/App.css";
 import NavMenu from "./components/NavMenu";
 import styled from "styled-components";
-
-const Title = styled.h1`
-  font-size: 1.5em;
-  text-align: center;
-  color: palevioletred;
-`;
-
-const Wrapper = styled.section`
-  margin: 10px;
-  padding: 4em;
-  border-radius: 48px;
-  border: 4px solid black;
-  background: papayawhip;
-`;
+import DefaultHome from "./components/DefaultHome";
 
 var ParentLayout = styled.section`
   margin-left: ${(props) => (props.$device === "Desktop" ? "300px" : "0px")};
@@ -46,10 +33,7 @@ function App() {
 
   return (
     <ParentLayout $device={device}>
-      <NavMenu />
-      <Wrapper>
-        <Title>ChatGPT 2.0 (clone)</Title>
-      </Wrapper>
+      <DefaultHome />
     </ParentLayout>
   );
 }
