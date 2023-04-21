@@ -1,6 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
@@ -13,7 +11,14 @@ import {
   IconButton,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import MenuItem from "./MenuItem";
+import staticants from "../utils/Constants";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
 
 const Wrapper = styled.section`
   position: fixed;
@@ -31,8 +36,6 @@ const Wrapper = styled.section`
   justify-content: space-between;
 `;
 
-
-
 const MenuSection = styled.section`
   margin: 10px;
 `;
@@ -42,7 +45,7 @@ const NewChatSection = styled.section`
   margin: 10px;
 `;
 
-function NavMenu() {
+function NavMenu(props) {
   const matches = useMediaQuery("(min-width:600px)");
   var width = window.innerWidth;
   const [open, setOpen] = useState(false);
@@ -87,8 +90,59 @@ function NavMenu() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <List>
-        <Box sx={{ px: 2, mt: 5 }}>
+      <Box>
+        <MenuItem
+          Icon={AddIcon}
+          isFeature={false}
+          isNewChat={true}
+          heading="New chat"
+        />
+        {/* <Divider color="white" /> */}
+
+        <List>
+          <MenuItem
+            Icon={ChatBubbleOutlineOutlinedIcon}
+            isFeature={false}
+            isNewChat={false}
+            heading={staticants.exampleOne}
+          />
+          <MenuItem
+            Icon={ChatBubbleOutlineOutlinedIcon}
+            isFeature={false}
+            isNewChat={false}
+            heading={staticants.exampleTwo}
+          />
+          <MenuItem
+            Icon={ChatBubbleOutlineOutlinedIcon}
+            isFeature={false}
+            isNewChat={false}
+            heading={staticants.exampleThree}
+          />
+          <MenuItem
+            Icon={ChatBubbleOutlineOutlinedIcon}
+            isFeature={false}
+            isNewChat={false}
+            heading={staticants.limitOne}
+          />
+          <MenuItem
+            Icon={ChatBubbleOutlineOutlinedIcon}
+            isFeature={false}
+            isNewChat={false}
+            heading={staticants.limitTwo}
+          />
+          <MenuItem
+            Icon={ChatBubbleOutlineOutlinedIcon}
+            isFeature={false}
+            isNewChat={false}
+            heading={staticants.limitTwo}
+          />
+          <MenuItem
+            Icon={ChatBubbleOutlineOutlinedIcon}
+            isFeature={false}
+            isNewChat={false}
+            heading={staticants.exampleOne}
+          />
+          {/* <Box sx={{ px: 2, mt: 5 }}>
           <Box
             sx={{
               alignItems: "center",
@@ -110,19 +164,41 @@ function NavMenu() {
               }}
             />
           </Box>
-        </Box>
-        <br />
-        <Divider
-          sx={{
-            borderColor: "white",
-            my: 3,
-          }}
-        />
-        <br />
+        </Box> */}
+          <Divider color="white" />
+        </List>
 
-        {/* <NavList Icon={AddIcon} heading="Manage Users" path="/user_list" />
-        <NavList Icon={AddIcon} heading="Manage Awards" path="/awards_page" /> */}
-      </List>
+        <MenuItem
+          Icon={DeleteOutlinedIcon}
+          isFeature={false}
+          isNewChat={false}
+          heading="Clear conversations"
+        />
+        <MenuItem
+          Icon={PersonOutlineOutlinedIcon}
+          isFeature={true}
+          isNewChat={false}
+          heading="Upgrade to Plus"
+        />
+        <MenuItem
+          Icon={SettingsOutlinedIcon}
+          isFeature={false}
+          isNewChat={false}
+          heading="Settings"
+        />
+        <MenuItem
+          Icon={LaunchOutlinedIcon}
+          isFeature={false}
+          isNewChat={false}
+          heading="Get help"
+        />
+        <MenuItem
+          Icon={LogoutOutlinedIcon}
+          isFeature={false}
+          isNewChat={false}
+          heading="Log out"
+        />
+      </Box>
     </Box>
   );
 
@@ -144,8 +220,8 @@ function NavMenu() {
         onOpen={toggleDrawer("left", true)}
         PaperProps={{
           sx: {
-            backgroundColor: "#2A2B32",
-            width: 300,
+            backgroundColor: "#202123",
+            width: 320,
           },
         }}
       >
@@ -174,11 +250,11 @@ function NavMenu() {
           <Typography
             sx={{
               color: "#C5C5CF",
-              fontWeight: "600",
+              fontWeight: "500",
               fontSize: "15px",
             }}
           >
-            Your ChatBox Heading
+            New Chat
           </Typography>
         </HeadingSection>
         <NewChatSection>

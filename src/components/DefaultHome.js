@@ -13,20 +13,23 @@ import AskChat from "./AskChat";
 import ReplyChat from "./ReplyChat";
 import { AccountCircle } from "@mui/icons-material";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
+import IntroSection from "./IntroSection";
+import staticants from "../utils/Constants";
 
 const HomeLayout = styled.section`
   height: 100%;
 `;
 
 const InputLayout = styled.section`
+  background-color: white;
   position: fixed;
   bottom: 0;
-  left: 0;
+  left: ${(props) => (props.$device === "Desktop" ? "300px" : "0px")};
   right: 0;
   margin: 0px;
   min-height: 87px;
   height: calc();
-  margin-bottom: 6px;
+  margin-bottom: 0px;
   padding: 0em;
   border-radius: 0px;
   border: 1px solid gray;
@@ -38,7 +41,7 @@ const ChatLayout = styled.section`
   /* margin-left: 10px;
   margin-right: 10px; */
   margin-top: 50px;
-  margin-bottom: 50px;
+  margin-bottom: 100px;
   height: fit-content;
   overflow-y: auto;
   //height: calc(100vh - 150px);
@@ -76,6 +79,7 @@ const InputQuery = styled.textarea`
 
 const InfoRowLayout = styled.section`
   margin-top: 7px;
+  margin-bottom: 15px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -84,52 +88,85 @@ const InfoRowLayout = styled.section`
 function DefaultHome() {
   const [ask, setAsk] = useState();
   const [questions, setQuestions] = useState([]);
+  const [chat, setChat] = useState([[]]);
   const [answers, setAnswers] = useState([]);
   const [currentThread, setCurrentThread] = useState("Question");
+  const [device, setDevice] = useState("Uncertain");
+  const [deviceWidth, setDeviceWidth] = useState(window.innerWidth);
 
-  const dummyText = (
-    <React.Fragment>
-      <Typography>
-        {Constants.dummyLontText +
-          Constants.dummyLontText +
-          Constants.dummyLontText +
-          Constants.dummyLontText}
-      </Typography>
-    </React.Fragment>
-  );
+  const getDeviceType = () => {
+    var width = window.innerWidth;
 
-  const addQuestion = (e) => {
-   
-    setQuestions(questions.push(ask));
-    questions.forEach((q) => {
-      console.log(q + "/n");
-    });
+    if (width <= 768) {
+      setDevice("Mobile");
+    } else if (width >= 768 && width <= 1024) {
+      setDevice("Tablet");
+    } else if (width >= 1024) {
+      setDevice("Desktop");
+    } else {
+      setDevice("Uncertain");
+    }
   };
 
-  const list = questions.map((item) => {
-    return <li>{item}</li>;
-  });
+  useEffect(() => {
+    getDeviceType();
+  }, [window.innerWidth]);
+
+  const addQuestion = (e) => {
+    if (ask === "" || ask === " " || ask === undefined) return;
+    setChat((prevState) => [...prevState, { query: ask, type: "question" }]);
+    setChat((prevState) => [
+      ...prevState,
+      {
+        query: `You Asked: ${ask}? So Answer would be Like Below: \n\n ${staticants.dummyAnswer}`,
+        type: "answer",
+      },
+    ]);
+    setAsk("");
+  };
 
   return (
     <HomeLayout>
       <NavMenu />
       <ChatLayout>
+        {/* <IntroSection /> */}
         {/* <AskChat />
+        <ReplyChat />
+        <AskChat />
         <ReplyChat /> */}
-        {list}
+        {chat.map((item, index) => {
+          if (item.length === 0 || chat.length === undefined || chat === undefined) {
+            return <IntroSection $isEmpty={true} />;
+          } else {
+            return item.type === "question" ? (
+              <AskChat key={index} question={item.query} />
+            ) :  (
+              <ReplyChat key={index} answer={`${item.query}`} />
+            );
+          }
+
+          // return chat.length === 0 || chat.length === undefined ? (
+          //   <IntroSection />
+          // ) : item.type === "question" ? (
+          //   <AskChat key={index} question={item.query} />
+          // ) : (
+          //   <ReplyChat key={index} answer={`${item.query}`} />
+          // );
+        })}
       </ChatLayout>
-      <InputLayout>
+      <InputLayout device={device}>
         <InputRowLayout>
           <TextField
             placeholder="Send a message.."
             multiline
             maxRows={6}
             fullWidth
+            value={ask}
             onChange={(e) => setAsk(e.target.value)}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={(e) => addQuestion()}>
+                  <IconButton onClick={() => addQuestion()}>
                     <SendOutlinedIcon />
                   </IconButton>
                 </InputAdornment>

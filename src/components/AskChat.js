@@ -37,7 +37,8 @@ const EditChatLayout = styled.section`
   justify-items: right;
 `;
 
-function AskChat() {
+function AskChat(props) {
+  const { question } = props;
   return (
     <div>
       <ChatBox>
@@ -51,16 +52,16 @@ function AskChat() {
           </ProfileBox>
           <Typography
             sx={{
-              color: "#555E6B",
+              color: "black",
               marginLeft: "20px",
               fontSize: "15px",
               fontWeight: "500",
+              lineHeight: "3.5ch",
             }}
           >
-            I am Question Asked to ChatGPT
+           {question}
           </Typography>
         </ChatLayout>
-       
       </ChatBox>
     </div>
   );

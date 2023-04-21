@@ -3,10 +3,15 @@ import "../src/css/App.css";
 import NavMenu from "./components/NavMenu";
 import styled from "styled-components";
 import DefaultHome from "./components/DefaultHome";
+import { createTheme } from "@material-ui/core/styles";
+import MontserratRegular from "../src/fonts/Montserrat-Regular.ttf";
+import MontserratBold from "../src/fonts/Montserrat-Bold.ttf";
+import { CssBaseline } from "@mui/material";
+
 
 var ParentLayout = styled.section`
   margin-left: ${(props) => (props.$device === "Desktop" ? "300px" : "0px")};
-  background: yellow;
+  /* background: yellow; */
 `;
 
 function App() {
@@ -37,5 +42,19 @@ function App() {
     </ParentLayout>
   );
 }
+
+export const theme = createTheme({
+  typography: {
+    fontFamily: '"Montserrat", Bold',
+  },
+  overrides: {
+    CssBaseline: {
+      "@global": {
+        "@font-face": [MontserratBold],
+      },
+    },
+  },
+});
+
 
 export default App;

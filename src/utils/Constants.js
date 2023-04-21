@@ -1,4 +1,4 @@
-class Constants {
+class staticants {
   static getNameInitials = (fullname) => {
     return (
       fullname.substring(0, 1) +
@@ -7,6 +7,18 @@ class Constants {
         .toUpperCase()
     );
   };
+
+  
+static exampleOne = "Explain quantum computing in simple terms";
+static exampleTwo = "Got any creative ideas for a 10 year old’s birthday?";
+static exampleThree = "How do I make an HTTP request in Javascript?";
+static capOne = "Remembers what user said earlier in the conversation";
+static capTwo = "Allows user to provide follow-up corrections";
+static capThree = "Trained to decline inappropriate requests";
+static limitOne = "May occasionally generate incorrect information";
+static limitTwo =
+  "May occasionally produce harmful instructions or biased content";
+static limitThree = "Limited knowledge of world and events after 2021";
 
   static linkText = "ChatGPT Mar 23 Version";
   static infoText =
@@ -32,4 +44,4 @@ Time management: When you approach tasks with an algorithmic mindset, you can pr
 Regarding your second question, writing algorithms does not necessarily make someone smarter. It is a specific skill set that can be learned and honed through practice and experience. However, people who are skilled in algorithmic thinking and programming may be able to solve certain problems more efficiently and effectively than those who are not. It ultimately depends on the specific situation and the individual's abilities and resources.`;
 }
 
-export default Constants;
+export default staticants;

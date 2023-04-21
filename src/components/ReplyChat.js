@@ -3,11 +3,12 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Avatar, IconButton, Typography } from "@mui/material";
 import Constants from "../utils/Constants";
 import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
+import { Typewriter } from "react-simple-typewriter";
 
 const ChatBox = styled.section`
   padding: 15px;
-  border: 1px solid grey;
-  background: white;
+  border: 1px solid lightgray;
+  background: #f7f7f8;
   min-height: 90px;
   height: calc();
 `;
@@ -27,6 +28,8 @@ const ProfileBox = styled.section`
 const ChatLayout = styled.section`
   display: flex;
   flex-direction: row;
+  overflow-y: scroll;
+  max-height: ${(props) => props.$maxeight}; ;
 `;
 
 const EditChatLayout = styled.section`
@@ -37,7 +40,13 @@ const EditChatLayout = styled.section`
   justify-items: right;
 `;
 
-function ReplyChat() {
+function ReplyChat(props) {
+  var { answer } = props;
+
+  const onTyping = () => {
+    window.scrollTo(0, document.body.scrollHeight);
+  };
+
   return (
     <div>
       <ChatBox>
@@ -47,14 +56,25 @@ function ReplyChat() {
           </ProfileBox>
           <Typography
             sx={{
-              color: "#555E6B",
+              width: "100%",
+              color: "black",
               marginLeft: "20px",
-              fontSize: "16px",
+              fontSize: "15px",
               fontWeight: "500",
-              lineHeight: "3ch",
+              lineHeight: "3.5ch",
             }}
           >
-            {Constants.dummyAnswer}
+            <Typewriter
+              words={[answer]}
+              loop={false}
+              cursor
+              cursorBlinking
+              cursorStyle="_"
+              typeSpeed={20}
+              onType={onTyping}
+              deleteSpeed={5000000}
+              delaySpeed={1000}
+            />
           </Typography>
         </ChatLayout>
       </ChatBox>
