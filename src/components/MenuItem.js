@@ -16,7 +16,7 @@ const MenuParentLayout = styled.section`
   &:hover {
     background-color: #2a2b32;
     border-radius: 10px;
-    padding: 10px;
+    //padding: 10px;
     cursor: pointer;
   }
 `;
@@ -24,6 +24,7 @@ const MenuParentLayout = styled.section`
 const HeadingLayout = styled.section`
   height: 40px;
   width: 100%;
+  padding: 8px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -43,7 +44,7 @@ const NewTextLayout = styled.section`
 function MenuItem(props) {
   const { Icon, isFeature, heading } = props;
   return (
-    <div>
+    <div onClick={props.onClick} >
       <MenuParentLayout isNewChat={props.isNewChat} >
         <HeadingLayout>
           <Icon

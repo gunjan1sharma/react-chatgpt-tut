@@ -9,6 +9,7 @@ import {
   useMediaQuery,
   Drawer,
   IconButton,
+  Modal,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import MenuItem from "./MenuItem";
@@ -19,6 +20,21 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import UpgradeFeatureList from "./UpgradeFeatureList";
+
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 550,
+  bgcolor: "background.paper",
+  borderRadius: "10px",
+  boxShadow: 24,
+  p: 3,
+};
 
 const Wrapper = styled.section`
   position: fixed;
@@ -45,11 +61,56 @@ const NewChatSection = styled.section`
   margin: 10px;
 `;
 
+const UpgradeModelParentLayout = styled.section`
+  display: flex;
+  flex-direction: column;
+`;
+const UpgradeFreeLayout = styled.section``;
+
+const UpgradePaidLayout = styled.section``;
+
+const UpgradeButtonLayout = styled.section`
+  padding: 15px;
+  border-radius: 4px;
+  width: 200px;
+  margin-bottom: 20px;
+
+  background-color: ${(props) =>
+    props.isPlus === false ? "#E2E2E8" : "#1A7F64"};
+  &:hover {
+    cursor: ${(props) => (props.isPlus === false ? "not-allowed" : "pointer")};
+  }
+`;
+
+const UpgradeCancelLayout = styled.section`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+`;
+
+const UpgradeHeadingLayout = styled.section`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+
+const UpgradePlanLayout = styled.section`
+  display: flex;
+  background-color: aliceblue;
+  justify-content: space-between;
+  border-top: 1px solid grey;
+`;
+
 function NavMenu(props) {
   const matches = useMediaQuery("(min-width:600px)");
   var width = window.innerWidth;
   const [open, setOpen] = useState(false);
   const [device, setDevice] = useState("Uncertain");
+  const [openupgradeModel, setOpenupgradeModel] = React.useState(false);
+
+  const openUpgradeModel = () => setOpenupgradeModel(true);
+  const closeUpgradeModel = () => setOpenupgradeModel(false);
 
   const getDeviceType = () => {
     var width = window.innerWidth;
@@ -68,6 +129,121 @@ function NavMenu(props) {
   useEffect(() => {
     getDeviceType();
   }, [width]);
+
+  const UpgradeDialog = (
+    <React.Fragment>
+      <Modal
+        open={openupgradeModel}
+        onClose={closeUpgradeModel}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <UpgradeModelParentLayout>
+            <UpgradeCancelLayout>
+              <Typography sx={{ fontSize: "17px", fontWeight: "bold" }}>
+                Your plan
+              </Typography>
+              <IconButton onClick={closeUpgradeModel}>
+                <ClearOutlinedIcon sx={{ color: "gray" }} />
+              </IconButton>
+            </UpgradeCancelLayout>
+
+            <UpgradePlanLayout>
+              <UpgradeFreeLayout>
+                <Typography
+                  sx={{
+                    fontSize: "21px",
+                    marginTop: "10px",
+                    marginBottom: "10px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Free plan
+                </Typography>
+                <UpgradeButtonLayout isPlus={false}>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      fontSize: "14px",
+                      color: "",
+                    }}
+                  >
+                    Your current plan
+                  </Typography>
+                </UpgradeButtonLayout>
+                <UpgradeFeatureList
+                  heading="Available when demand is low"
+                  isPaidPlan={false}
+                />
+                <UpgradeFeatureList
+                  heading="Standard response speed"
+                  isPaidPlan={false}
+                />
+                <UpgradeFeatureList
+                  heading="Regular model updates"
+                  isPaidPlan={false}
+                />
+              </UpgradeFreeLayout>
+
+              <UpgradePaidLayout>
+                <UpgradeHeadingLayout>
+                  <Typography sx={{ fontSize: "21px", fontWeight: "bold" }}>
+                    ChatGPT Plus
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "24px",
+                      marginLeft: "8px",
+                      fontWeight: "bold",
+                      color: "#8E8EA0",
+                    }}
+                  >
+                    USD $20/mo
+                  </Typography>
+                </UpgradeHeadingLayout>
+
+                <UpgradeButtonLayout isPlus={true}>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      fontSize: "14px",
+                      color: "white",
+                    }}
+                  >
+                    Upgrade plan
+                  </Typography>
+                </UpgradeButtonLayout>
+                <UpgradeFeatureList
+                  heading="Available even when demand is high"
+                  isPaidPlan={true}
+                />
+                <UpgradeFeatureList
+                  heading="Faster response speed"
+                  isPaidPlan={true}
+                />
+                <UpgradeFeatureList
+                  heading="Priority access to new features"
+                  isPaidPlan={true}
+                />
+                <Typography
+                  sx={{
+                    textDecoration: "underline",
+                    marginTop: "20px",
+                    fontSize: "14px",
+                  }}
+                >
+                  I need help with a billing issue
+                </Typography>
+              </UpgradePaidLayout>
+            </UpgradePlanLayout>
+          </UpgradeModelParentLayout>
+        </Box>
+      </Modal>
+    </React.Fragment>
+  );
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -142,29 +318,6 @@ function NavMenu(props) {
             isNewChat={false}
             heading={staticants.exampleOne}
           />
-          {/* <Box sx={{ px: 2, mt: 5 }}>
-          <Box
-            sx={{
-              alignItems: "center",
-              backgroundColor: "rgba(255, 255, 255, 0.04)",
-              cursor: "pointer",
-              display: "flex",
-              justifyContent: "space-between",
-              px: 3,
-              py: "11px",
-              borderRadius: 1,
-            }}
-          >
-            <ArrowForwardIosIcon
-              fontSize="large"
-              sx={{
-                color: "white",
-                width: 14,
-                height: 14,
-              }}
-            />
-          </Box>
-        </Box> */}
           <Divider color="white" />
         </List>
 
@@ -179,6 +332,7 @@ function NavMenu(props) {
           isFeature={true}
           isNewChat={false}
           heading="Upgrade to Plus"
+          onClick={openUpgradeModel}
         />
         <MenuItem
           Icon={SettingsOutlinedIcon}
@@ -233,6 +387,7 @@ function NavMenu(props) {
   return (
     <div>
       {drawer}
+      {UpgradeDialog}
       <Wrapper>
         <MenuSection>
           <IconButton onClick={() => setOpen(true)}>
